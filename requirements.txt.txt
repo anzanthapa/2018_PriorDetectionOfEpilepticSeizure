@@ -1,0 +1,5 @@
+Extraction of EEG signals for epileptic seizure can be done via this website:
+https://physionet.org/cgi-bin/atm/ATM
+Choose CHB-MIT database and download using instructions.
+
+NOTE: MATLAB is needed to run the code. 

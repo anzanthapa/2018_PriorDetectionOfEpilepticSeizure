@@ -1,0 +1,55 @@
+close all; clearvars ;
+load('chb01_03_edfm');
+fs=256;
+
+seizureStart = 2996 * fs;
+seizureEnd = 3036 * fs;
+forNormalEEG=60*fs;
+beforeSeizure = 20 *fs;
+windowSize=fs;
+shifting=fs/2;
+dataMatrix = zeros(120,7);
+counter=1;
+signal=val(1,seizureStart-beforeSeizure-forNormalEEG:seizureStart-beforeSeizure);
+for i=1:shifting:length(signal)-windowSize
+   testSignal=signal(i:i+windowSize);
+   [a,b,c,d,e,f,g] = getEnergyOfBand(testSignal);
+   dataMatrix(counter,:) = [a,b,c,d,e,f,g];
+   counter = counter + 1;
+end
+figure();
+plot(val(1,:));
+figure();
+plot(signal);
+title('Normal EEG signal of chb03-01');
+xlabel('time(sec)');
+ylabel('Amplitude(microvolts)');
+figure();
+plot(dataMatrix(:,1),'-');
+hold on;
+plot(dataMatrix(:,2),'-.');
+legend('Energy0-4','Energy4-8')
+title('The Energy Graph of Frequency Components');
+ylabel('Energy');
+xlabel('Shifted Windows');
+figure();
+plot(dataMatrix(:,3),'-');
+hold on;
+plot(dataMatrix(:,4),'-.');
+legend('Energy8-16','Energy16-32');
+title('The Energy Graph of Frequency Components');
+ylabel('Energy');
+xlabel('Shifted Windows');
+figure();
+plot(dataMatrix(:,5),'');
+hold on;
+plot(dataMatrix(:,6),'-.');
+legend('Energy32-64','Energy64-128');
+title('The Energy Graph of Frequency Components');
+ylabel('Energy');
+xlabel('Shifted Windows');
+figure();
+plot(dataMatrix(:,7));
+title('The Energy Graph of Time Domain Signal');
+xlabel('Shifted Windows');
+ylabel('Energy');
